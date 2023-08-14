@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Component,AfterViewInit, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component,AfterViewInit, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import Swal from 'sweetalert2';
@@ -26,7 +26,8 @@ export class LoginComponent implements OnInit, AfterViewInit{
 
   constructor(private router: Router,
               private fb: FormBuilder,
-              private usuarioService: UsuarioService){}
+              private usuarioService: UsuarioService,
+              private ngZone: NgZone){}
 
 
   ngOnInit(): void {
@@ -53,7 +54,7 @@ export class LoginComponent implements OnInit, AfterViewInit{
       this.usuarioService.loginGoogle(response.credential)
           .subscribe(resp => {
             // console.log({login: resp})
-            this.router.navigateByUrl('/');
+            this.ngZone.run( () => {this.router.navigateByUrl('/');}) 
           })
   }
 
@@ -69,6 +70,7 @@ export class LoginComponent implements OnInit, AfterViewInit{
             localStorage.removeItem('email')
           }
           this.router.navigateByUrl('/');
+          
         },
         error: (err) =>{Swal.fire('Error', err.error.msg, 'error')}
       }

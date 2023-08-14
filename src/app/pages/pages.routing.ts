@@ -6,6 +6,7 @@ import { PagesComponent } from './pages.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../guards/auth.guard';
+import { PerfilComponent } from './perfil/perfil.component';
 
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
         children: [
           {path:'', component:DashboardComponent, data:{ titulo: 'Dashboard' }},
           {path:'progress', component:ProgressComponent, data:{ titulo: 'ProgressBar' }},
+          {path:'perfil', component:PerfilComponent, data:{ titulo: 'Perfil de usuario' }},
           {path:'grafica1', component:Grafica1Component, data:{ titulo: 'Gráfica' }},
           {path:'account-settings', component:AccountSettingsComponent, data:{ titulo: 'Ajustes de Cuenta' }},
         ]

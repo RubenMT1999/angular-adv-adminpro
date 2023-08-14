@@ -1,7 +1,7 @@
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './../app-routing.module';
 import { ComponentsModule } from './../components/components.module';
@@ -11,6 +11,7 @@ import { Grafica1Component } from './grafica1/grafica1.component';
 import { PagesComponent } from './pages.component';
 import { ProgressComponent } from './progress/progress.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import { PerfilComponent } from './perfil/perfil.component';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
     PagesComponent,
     DashboardComponent,
     AccountSettingsComponent,
+    PerfilComponent,
   ],
   exports: [
     ProgressComponent,
@@ -34,7 +36,8 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
     AppRoutingModule,
     FormsModule,
     ComponentsModule,
-    RouterModule
+    RouterModule,
+    ReactiveFormsModule,
   ]
 })
 export class PagesModule { }
