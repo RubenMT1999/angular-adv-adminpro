@@ -12,6 +12,7 @@ import { PagesComponent } from './pages.component';
 import { ProgressComponent } from './progress/progress.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PerfilComponent } from './perfil/perfil.component';
+import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { PerfilComponent } from './perfil/perfil.component';
     DashboardComponent,
     AccountSettingsComponent,
     PerfilComponent,
+    UsuariosComponent,
   ],
   exports: [
     ProgressComponent,

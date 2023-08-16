@@ -50,7 +50,7 @@ export class PerfilComponent implements OnInit{
 
   cambiarImagen(file: File): any{
 
-    const extensionesValidas = ['png', 'jpg', 'jpeg', 'gif'];
+    const extensionesValidas = ['png', 'jpg', 'jpeg', 'gif', 'PNG'];
     const fileExtension = file.name.split('.').pop(); // Obtener la extensión del archivo
 
     if (!extensionesValidas.includes(fileExtension!)) {
@@ -76,9 +76,7 @@ export class PerfilComponent implements OnInit{
   subirImagen(){
     this.fileUploadService.actualizarFoto(this.imagenSubir, 'usuarios', this.usuario.uid!)
       .then( img => {
-
-
-        if(img.ok){
+        if(img){
           this.usuario.img = img;
           Swal.fire('Guardado', 'Imagen de usuario actualizada', 'success');
         }else{

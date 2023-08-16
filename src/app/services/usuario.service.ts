@@ -1,3 +1,4 @@
+import { Usuario } from 'src/app/models/usuario.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RegisterForm } from '../interfaces/register-form.interface';
@@ -5,7 +6,7 @@ import { environment } from 'src/environments/environment';
 import { LoginForm } from '../interfaces/login-form.interface';
 import { Observable, catchError, map, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { Usuario } from '../models/usuario.model';
+import { CargarUsuario } from '../interfaces/cargar-usuarios.interface';
 
 declare const google: any;
 
@@ -29,6 +30,9 @@ export class UsuarioService {
     return this.usuario.uid || '';
   }
 
+  get headers(){
+    return {headers: {'x-token': this.token}}
+  }
 
   logout(){
     localStorage.removeItem('token');
@@ -48,7 +52,7 @@ export class UsuarioService {
 //Usando en el Guard
   validarToken(): Observable<boolean>{
 
-    return this.http.get(`${base_url}/login/renew`, {headers: {'x-token': this.token}})
+    return this.http.get(`${base_url}/login/renew`, this.headers)
         .pipe(
           map( (resp:any) => {
             const {email,google,nombre,role, img = '', uid} = resp.usuarioDB;
@@ -71,12 +75,13 @@ export class UsuarioService {
 
 
   actualizarPerfil( data: {email: string, nombre: string, role: string}){
+
     data = {
       ...data,
       role: this.usuario.role!
-    };
+    }
 
-    return this.http.put(`${base_url}/usuarios/${this.uid}`, data, {headers: {'x-token': this.token}});
+    return this.http.put(`${base_url}/usuarios/${this.uid}`, data, this.headers);
   }
 
 
@@ -97,6 +102,35 @@ export class UsuarioService {
           localStorage.setItem('token', resp.token)
         })
       )
+  }
+
+//Paginación
+  cargarUsuarios(desde: number = 0){
+    return this.http.get<CargarUsuario>(`${base_url}/usuarios?desde=${desde}`, this.headers)
+            .pipe(
+              map( resp => {
+                  //Voy a convertir los usuarios de la respuesta que son de tipo Object a tipo Usuario
+                  //Esto me ayudará a procesar las imagenes con el modelo de Usuario
+                  const usuarios = resp.usuarios.map(
+                  user => new Usuario(user.nombre, user.email,'', user.img, user.uid, user.role, user.google)
+                  );
+
+                return {
+                  total: resp.total,
+                  usuarios: usuarios
+                };
+              })
+            )
+  }
+
+
+  eliminarUsuario(usuario: Usuario){
+    return this.http.delete(`${base_url}/usuarios/${usuario.uid}`, this.headers)
+  }
+
+  //Para cambiar el Role
+  guardarUsuario( usuario: Usuario){
+    return this.http.put(`${base_url}/usuarios/${usuario.uid}`, usuario, this.headers);
   }
 
 

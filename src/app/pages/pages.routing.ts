@@ -1,12 +1,17 @@
+
+import { AuthGuard } from '../guards/auth.guard';
+import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
+
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { Grafica1Component } from './grafica1/grafica1.component';
 import { ProgressComponent } from './progress/progress.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PagesComponent } from './pages.component';
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '../guards/auth.guard';
 import { PerfilComponent } from './perfil/perfil.component';
+
+//Mantenimientos
+import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component';
 
 
 const routes: Routes = [
@@ -20,6 +25,10 @@ const routes: Routes = [
           {path:'perfil', component:PerfilComponent, data:{ titulo: 'Perfil de usuario' }},
           {path:'grafica1', component:Grafica1Component, data:{ titulo: 'Gráfica' }},
           {path:'account-settings', component:AccountSettingsComponent, data:{ titulo: 'Ajustes de Cuenta' }},
+        
+          // Mantenimientos
+          {path:'usuarios', component:UsuariosComponent, data:{ titulo: 'Usuarios de Aplicación' }},
+
         ]
     },
 ];
