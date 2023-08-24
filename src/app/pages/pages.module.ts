@@ -13,6 +13,10 @@ import { ProgressComponent } from './progress/progress.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component';
+import { HospitalesComponent } from './mantenimientos/hospitales/hospitales.component';
+import { MedicosComponent } from './mantenimientos/medicos/medicos.component';
+import { PipesModule } from '../pipes/pipes.module';
+import { MedicoComponent } from './mantenimientos/medicos/medico.component';
 
 
 @NgModule({
@@ -24,6 +28,9 @@ import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component'
     AccountSettingsComponent,
     PerfilComponent,
     UsuariosComponent,
+    HospitalesComponent,
+    MedicosComponent,
+    MedicoComponent
   ],
   exports: [
     ProgressComponent,
@@ -40,6 +47,7 @@ import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component'
     ComponentsModule,
     RouterModule,
     ReactiveFormsModule,
+    PipesModule,
   ]
 })
 export class PagesModule { }

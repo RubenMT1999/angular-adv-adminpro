@@ -11,6 +11,7 @@ export class ModalImagenComponent {
 
 
   public imagenSubir: File;
+  //imagen que se ve en el modal
   public imgTemp: any;
 
   constructor(public modalImagenService: ModalImagenService,
