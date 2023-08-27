@@ -1,3 +1,4 @@
+import { SidebarService } from '../services/sidebar.service';
 import { SettingsService } from './../services/settings.service';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { Component, OnInit } from '@angular/core';
@@ -14,7 +15,8 @@ declare function customInitFunctions():any;
 export class PagesComponent implements OnInit{
 
 
-  constructor(private settingsService: SettingsService){}
+  constructor(private settingsService: SettingsService,
+    private sidebarService: SidebarService){}
 
   ngOnInit() {
     //al hacer login, no se veía bien la aplicación porque debía cargar
@@ -22,6 +24,7 @@ export class PagesComponent implements OnInit{
     //por ello hacemos que ejecuta el método del custom.js situado en assets
     //al cargar el componente
     customInitFunctions();
+    this.sidebarService.cargarMenu();
   }
 
 }

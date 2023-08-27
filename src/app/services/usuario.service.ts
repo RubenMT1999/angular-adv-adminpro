@@ -26,6 +26,10 @@ export class UsuarioService {
     return localStorage.getItem('token') || '';
   }
 
+  get role():  'ADMIN_ROLE' | 'USER_ROLE'{
+    return this.usuario.role!;
+  }
+
   get uid():string {
     return this.usuario.uid || '';
   }
@@ -34,8 +38,16 @@ export class UsuarioService {
     return {headers: {'x-token': this.token}}
   }
 
+
+  guardarLocalStorage(token: string, menu: any){
+    localStorage.setItem('token', token);
+    localStorage.setItem('menu',JSON.stringify(menu));
+  }
+
+
   logout(){
     localStorage.removeItem('token');
+    localStorage.removeItem('menu');
 
     //verificamos que  API de Google Identity Toolkit de ha inicializado correctamente
     //de lo contrario el revoke nos puede dar error.
@@ -49,7 +61,7 @@ export class UsuarioService {
     })
   }
 
-//Usando en el Guard
+//Usado en el Guard
   validarToken(): Observable<boolean>{
 
     return this.http.get(`${base_url}/login/renew`, this.headers)
@@ -59,7 +71,7 @@ export class UsuarioService {
             this.usuario = new Usuario(nombre, email, '',img,uid,role,google);
 
             console.log(this.usuario);
-            localStorage.setItem('token', resp.token);
+            this.guardarLocalStorage(resp.token, resp.menu);
             return true;
         }),
           //obtiene el error que haya del flujo anterior y devuelve nu nuevo
@@ -70,7 +82,12 @@ export class UsuarioService {
 
 
   crearUsuario( formData: RegisterForm ){
-    return this.http.post(`${base_url}/usuarios`, formData);
+    return this.http.post(`${base_url}/usuarios`, formData)
+      .pipe(
+        tap( (resp: any) =>{
+          this.guardarLocalStorage(resp.token, resp.menu);
+        })
+      );
   }
 
 
@@ -89,7 +106,7 @@ export class UsuarioService {
     return this.http.post(`${base_url}/login`, formData)
                 .pipe(
                   tap( (resp:any) => {
-                    localStorage.setItem('token', resp.token)
+                    this.guardarLocalStorage(resp.token, resp.menu);
                     return resp.usuario;
                   })
                 );
@@ -99,7 +116,7 @@ export class UsuarioService {
     return this.http.post(`${base_url}/login/google`, {token})
       .pipe(
         tap((resp:any) => {
-          localStorage.setItem('token', resp.token)
+          this.guardarLocalStorage(resp.token, resp.menu);
         })
       )
   }
